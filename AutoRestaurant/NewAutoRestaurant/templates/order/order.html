@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>订单</title>
+</head>
+<body>
+ <table border="0" style="font-size:xx-large;width: 80%; align-content: center" align="center" bgcolor="#008b8b">
+              <tr>
+                <th style="width: 28%; align-content: center" ><a href="/menu/">菜单</a></th>
+                <th style="width: 24%; align-content: center"><a href="/order/">订单</a></th>
+                <th style="width: 28%; align-content: center"><a href="/table/">餐桌</a></th>
+              </tr>
+             </table>
+            <br><br><br><br>
+<table border="1" style="width: 100%; align-content: center" align="left">
+      <thead>
+        <tr>
+          <th>订单编号</th>
+          <th>桌号</th>
+          <th>下单时间</th>
+          <th>订单状态</th>
+          <th>操作</th>
+          <th style="width: 26px;"></th>
+        </tr>
+      </thead>
+      <tbody>
+      {% for order in orderlist %}
+        <tr>
+          <td>{{order.id}}</td>
+          <td>餐桌号{{order.order_table_id}}</td>
+          <td>{{order.ordercreatetime}}</td>
+          <td>
+              {% if order.orderstatus == 0 %}
+                            <div>
+            	                <p style="color:#00f">未处理</p>
+          		             </div>
+              {%elif order.orderstatus == 1 %}
+                            <div >
+            	             <p style="color:#f00">处理中</p>
+          		             </div>
+               {% else %}
+                           <div >
+            	             <p style="color:#0f0">已处理</p>
+          		             </div>
+              {% endif %}
+          </td>
+          <td>
+           <a href="/order/detail?oid={{order.id}}" ><span style="color: mediumseagreen">查 看</span></a>
+       </td>
+        </tr>
+       {% endfor %}
+      </tbody>
+    </table>
+
+</body>
+</html>

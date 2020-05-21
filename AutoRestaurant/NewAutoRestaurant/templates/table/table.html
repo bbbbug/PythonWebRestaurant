@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>餐桌</title>
+    <script type="text/javascript">
+    //jquery 方法
+    $(document).ready(function(){
+        $('.mydiv').on('click', function(){
+            var tid = $(this).val();
+            var data = {
+                    tid: tid,
+            };
+            $.ajax({
+                    url: '/table/food/',
+                    type: 'post',
+                    data: data,
+                    async:true,
+                    success: function (res) {
+                        appendorder(JSON.parse(res));
+                        alert('作者添加成功')
+                    },
+                    error:function () {
+
+                    }
+                });
+        })
+        var appendorder = function(data){
+            $('#lb > ul').append('<li><div></div><div></div></li>')
+            $('#lb > ul > li:last > div:eq(0)').html(data.id)
+        };
+    });
+</script>
+</head>
+<body>
+ <table border="0" style="font-size:xx-large;width: 80%; align-content: center" align="center" bgcolor="#008b8b">
+              <tr>
+                <th style="width: 28%; align-content: center" ><a href="/menu/">菜单</a></th>
+                <th style="width: 24%; align-content: center"><a href="/order/">订单</a></th>
+                <th style="width: 28%; align-content: center"><a href="/table/">餐桌</a></th>
+              </tr>
+                <tr>
+
+                </tr>
+             </table>
+            <br><br><br><br>
+        <div style="float:left; width: 90%">
+            <table  border="1" style="float:left; width: 90%">
+                <tr>
+                <th style="width: 30%;">餐品编号</th>
+                <th style="width: 30%;">餐桌状态</th>
+                <th style="width: 30%; ">操作</th>
+              </tr>
+            {% for table in tablelist %}
+                <tr>
+                 <td style="width: 30%; " >
+                     <input type="button" class="mydiv" name="table{{ table.id }}" value="{{ table.id }}号餐桌">
+                 </td>
+                <td style="width: 30%; ">
+                  {% if table.tableflag == 0 %}
+                                <div style="color: lime">
+                                    <p >空闲</p>
+                                 </div>
+                  {%elif table.tableflag == 1 %}
+                                <div style="color: red">
+                                 <p >占据</p>
+                                 </div>
+                   {% elif table.tableflag == 2 %}
+                               <div style="color: gold">
+                                 <p >待清理</p>
+                                 </div>
+                   {% else %}
+                                <div style="color: yellowgreen">
+                                 <p >清理中</p>
+                                 </div>
+                  {% endif %}
+              </td>
+                <td style="width: 30%; ">
+                    {% if table.tableflag == 1 %}
+                        <a href="/table/change?tableid={{ table.id }}"><img style="width: 50px;height: 30px" src="/media/img/zj.jpg"></a>
+                    {% endif %}
+                </td>
+                </tr>
+             {% endfor %}
+            </table>
+</div>
+<div id="lb" style="display:none">
+
+</div>
+</body>
+</html>

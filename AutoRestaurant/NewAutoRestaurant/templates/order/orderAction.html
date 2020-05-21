@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>订单操作</title>
+</head>
+<body>
+<div class="row-fluid">
+            {% if foodInfo %}
+                <img src="/media/{{foodInfo.foodpicture}}" align="left" alt="" width="450" height="370">
+            <div class="span1"></div>
+               <div class="span6">
+                   <h1 style="color: black">{{foodInfo.foodname}}</h1>
+					<h2>
+					<span class="label"> 价 格 : </span>
+					<span class="label label-success" >  {{foodInfo.foodprice}}</span>
+					</h2>
+					<h2>
+					</h2>
+					<h2>
+					<span class="label"> 简 介 : </span>
+					</h2>
+					<p class="text-success">{{foodInfo.fooddescribe}}</p>
+               </div>
+                {% endif %}
+               </div>
+              <a href="/order/del?fid={{foodInfo.id}}&oid={{ oid }}">删除</a>
+</body>
+</html>

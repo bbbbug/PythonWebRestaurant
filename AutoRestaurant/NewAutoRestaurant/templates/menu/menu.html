@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>餐单</title>
+    <script src="/static/js/jquery.js"></script>
+</head>
+<body>
+             <table border="0" style="font-size:xx-large;width: 80%; align-content: center" align="center" bgcolor="#008b8b">
+              <tr>
+                <th style="width: 28%; align-content: center" ><a href="/menu/">菜单</a></th>
+                <th style="width: 24%; align-content: center"><a href="/order/">订单</a></th>
+                <th style="width: 28%; align-content: center"><a href="/table/">餐桌</a></th>
+              </tr>
+             </table>
+            <br><br><br><br>
+         <div style="float:left; width: 70%">
+
+            <table border="1" style="width: 100%; align-content: center" align="left">
+              <tr>
+                <th style="width: 5%; align-content: center">餐品编号</th>
+                <th style="width: 27%; align-content: center">餐品名称</th>
+                <th style="width: 5%; align-content: center">餐品价格</th>
+                <th style="width: 14%; align-content: center">餐品图片</th>
+                <th style="width: 29%; align-content: center">操作</th>
+              </tr>
+                {% for menu in menulist %}
+              <tr>
+                <td>{{menu.id}}</td>
+                <td>{{menu.foodname}}</td>
+                <td>{{menu.foodprice}}</td>
+                <td><img src="/media/{{menu.foodpicture}}" alt="" width="220" height="170"/></td>
+                <td>
+                    <a href="/menu/detail?fid={{menu.id}}" class="btn btn-primary"> 查 看</a>
+
+                    <button class="addFood" onClick="append('{{menu.foodname}}','{{menu.id}}','/media/{{menu.foodpicture}}')">添 加</button>
+                </td>
+              </tr>
+                {% endfor %}
+            </table>
+
+            </div>
+            <div style="float:right;border:1px solid;width: 20%; ">
+                <div style="color: darkcyan;">
+                     <h1 align="center">订单</h1>
+                     <form action="/order/new/" method="post">
+                         可用餐桌<select name="tableid">
+                          <option>--请选择--</option>
+                         {% for table in tablelist %}
+                          <option value="{{ table.id }}">{{ table.id }}号餐桌</option>
+                         {% endfor %}
+                        </select>
+                         <div  id="food_form">
+                         </div>
+                         <div>
+                            <input type="submit" value="提交">
+                         </div>
+                     </form>
+                </div>
+                <div>
+
+                </div>
+            </div>
+</body>
+<script type="text/javascript">
+	$(function(){//页面加载执行
+	});
+	function append(name,id,img){
+	    var img=img;
+	    var msg='<div id="remove_food'+id+'">'
+	    msg += name+'<input type="hidden" name="'+name+'" value="'+id+'">';
+	    msg+="<img src="+img+" width='60' height='60' alt='餐品' />"
+        msg+='<img  onClick="remove(remove_food'+id+')" src="/media/img/remove.jpg" style="30px;height: 30px"><br></div>'
+		$('#food_form').append(msg);
+	}
+    function remove(id){
+       var newP = $(id);
+       if(newP.length > 0) {
+           newP.remove();
+       }
+    }
+</script>
+</html>

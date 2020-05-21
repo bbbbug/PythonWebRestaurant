@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>订单详情</title>
+</head>
+<body>
+        <div class="span4" style="width:90%;float:left">
+                    {% if order %}
+						<h4>
+					<span class="label"> 桌 号 : </span>
+					<span class="label label-success" > {{order.order_table_id}}</span>
+					</h4>
+					<span class="label"> 备 注 : </span>
+                        <span class="label label-success" >
+                        {% if order.orderremark %}
+                            {{order.orderremark}}
+                        {% else %}
+                            <span>暂无备注</span>
+                         {% endif %}
+                        </span>
+					</h4>
+
+                   {% endif %}
+
+                            <table border="1" style="width: 100%; align-content: center" align="left">
+                              <thead>
+                                <tr>
+                                  <th style="width: 27%; align-content: center">菜名</th>
+                                  <th style="width: 27%; align-content: center">状态</th>
+                                  <th style="width: 27%; align-content: center">操作</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                              {% for foods in orderfoods %}
+                                <tr>
+                                  <td>{{foods.orderfood_food_id}}</td>
+                                   <td>
+                                       {% if foods.status == 0 %}
+                                                            <span style="color:#00f">未处理</span>
+                                          {%elif foods.status == 1 %}
+                                                         <span style="color:#f00">处理中</span>
+                                           {% else %}
+                                                         <span style="color:#0f0">已处理</span>
+                                          {% endif %}
+                                   </td>
+
+                                   <td>
+                                       {% if foods.status == 0 %}<a href="/order/act?foodname={{foods.orderfood_food_id}}&orderid={{ order.id }}"><span style="color: lime;">修改</span></a>
+                                       {% else %}
+                                           <span style="color: red">不可修改</span>
+                                       {% endif %}
+                                   </td>
+                                </tr>
+                              {% endfor %}
+                              </tbody>
+                            </table>
+        </div>
+        <br><br>
+        <div style="width: 20%">
+ <input type="button" onclick="history.go(-1)" value="返回">
+            </div>
+</body>
+
+</html>
